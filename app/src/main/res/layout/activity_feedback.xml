@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <include layout="@layout/layout_top_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电话" />
+        <EditText
+            android:id="@+id/feedback_textview_tel"
+            android:layout_width="match_parent"
+            android:textColor="@color/textColorPrimaryDark"
+            android:maxLines="1"
+            android:inputType="phone"
+            android:editable="false"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邮箱" />
+        <EditText
+            android:id="@+id/feedback_textview_email"
+            android:layout_width="match_parent"
+            android:textColor="@color/textColorPrimaryDark"
+            android:maxLines="1"
+            android:inputType="textEmailAddress"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/feedback_textview_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:textColor="@color/textColorPrimaryDark"
+        android:gravity="top"
+        android:textSize="@dimen/text_size_2"
+        android:hint="请输入反馈内容..."
+        android:textColorHint="#bbbbbb"
+        android:background="@null"/>
+</LinearLayout>

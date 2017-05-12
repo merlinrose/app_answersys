@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <include layout="@layout/layout_top_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="科目" />
+        <TextView
+            android:id="@+id/qupdate_textview_lesson"
+            android:layout_width="match_parent"
+            android:textColor="@color/textColorPrimaryDark"
+            android:maxLines="1"
+            android:paddingLeft="2dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_3"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标题" />
+        <EditText
+            android:id="@+id/qupdate_edittext_title"
+            android:layout_width="match_parent"
+            android:textColor="@color/textColorPrimaryDark"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_3"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <EditText
+        android:id="@+id/qupdate_edittext_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:textColor="@color/textColorPrimaryDark"
+        android:gravity="top"
+        android:textSize="@dimen/text_size_2"
+        android:hint="请输入问题..."
+        android:textColorHint="#bbbbbb"
+        android:background="@null"/>
+</LinearLayout>

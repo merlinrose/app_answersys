@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWindowBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_bar" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/answer_photo"
+                    android:layout_width="@dimen/news_photo_size"
+                    android:layout_height="@dimen/news_photo_size"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/news_item_padding"
+                    android:src="@drawable/ic_photo_man" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/answer_photo"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/answer_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="王瑶"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_size_2" />
+
+                    <TextView
+                        android:id="@+id/answer_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今天 12:09"
+                        android:textSize="@dimen/text_size_1" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/answer_lesson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="高等数学" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/answer_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:text="关于勾股定理的公式使用方式"
+                android:textSize="@dimen/text_size_2" />
+
+            <TextView
+                android:id="@+id/answer_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="今天在做高等数学的时候，遇到一道几何题，已知两边之长，计算第三边的题目，希望老师解答一下！"
+                android:textSize="@dimen/text_size_1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorDividerLight" />
+
+            <EditText
+                android:id="@+id/answer_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="请输入回答内容..."
+                android:minHeight="300dp"
+                android:padding="5dp"
+                android:textColor="@color/textColorPrimaryDark"
+                android:textColorHint="#bbbbbb"
+                android:textSize="@dimen/text_size_2" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

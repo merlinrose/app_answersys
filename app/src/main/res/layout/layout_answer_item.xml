@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/answer_item_photo"
+            android:layout_width="@dimen/news_photo_size"
+            android:layout_height="@dimen/news_photo_size"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/news_item_padding"
+            android:src="@drawable/ic_photo_man" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/answer_item_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="王瑶"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_2" />
+
+            <TextView
+                android:id="@+id/answer_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今天 12:09"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_size_1" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/answer_item_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="今天在做高等数学的时候，遇到一道几何题，已知两边之长，计算第三边的题目，希望老师解答一下！"
+            android:textSize="@dimen/text_size_1" />
+    </LinearLayout>
+
+</LinearLayout>

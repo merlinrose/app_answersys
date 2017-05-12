@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <include layout="@layout/layout_top_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/block_padding"
+        android:paddingRight="@dimen/block_padding">
+
+        <RelativeLayout
+            android:id="@+id/setting_btn_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_item_height"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="?android:attr/selectableItemBackground">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户反馈"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="@dimen/me_setting_list_icon_size"
+                android:layout_height="@dimen/me_setting_list_icon_size"
+                android:src="@drawable/ic_more"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDividerLight"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_btn_update"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_item_height"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="?android:attr/selectableItemBackground">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本更新"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="@dimen/me_setting_list_icon_size"
+                android:layout_height="@dimen/me_setting_list_icon_size"
+                android:src="@drawable/ic_more"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDividerLight"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_btn_about"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_item_height"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="?android:attr/selectableItemBackground">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关于软件"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="@dimen/me_setting_list_icon_size"
+                android:layout_height="@dimen/me_setting_list_icon_size"
+                android:src="@drawable/ic_more"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDividerLight"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

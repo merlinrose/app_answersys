@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/lessons_item_name"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="科目名称"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="@color/textColorPrimary"
+        android:background="@color/colorPrimary"/>
+
+</RelativeLayout>
