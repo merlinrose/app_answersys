@@ -86,7 +86,6 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
 
     @Override
     public void updateView(List<Question> data) {
-        Log.e("refresh", "刷新结束");
         mNewAdapter.setData(data);
 
         if(refreshLayout != null && refreshLayout.isRefreshing()) {

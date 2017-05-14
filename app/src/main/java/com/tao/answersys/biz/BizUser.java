@@ -60,6 +60,11 @@ public class BizUser {
         return  mDaoUser.answer(answer, CustApplication.getCurrUserId(), qid, useType);
     }
 
+    public boolean updateAnswer(String answer, int aid) {
+        String useType = CustApplication.getUserType();
+        return  mDaoUser.updateAnswer(answer, aid, useType);
+    }
+
     public boolean updateQuestion(QuestionUpdate question) {
         if(CustApplication.getUserType().equals(Config.USER_TYPE_STU)) {
             question.setStuId(CustApplication.getCurrUserId());

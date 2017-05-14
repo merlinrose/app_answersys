@@ -18,8 +18,11 @@ import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.adapter.AdapterAnswers;
 import com.tao.answersys.bean.AnswerItem;
 import com.tao.answersys.bean.Question;
+import com.tao.answersys.bean.Student;
+import com.tao.answersys.bean.Teacher;
 import com.tao.answersys.biz.BizQuestion;
 import com.tao.answersys.event.ErrorEventQuestionDetailPage;
+import com.tao.answersys.event.EventUserReqUpdateAnswer;
 import com.tao.answersys.global.Config;
 import com.tao.answersys.global.CustApplication;
 
@@ -71,6 +74,15 @@ public class ActivityQuestionDetail extends ActivityBase {
             if(resultCode == INTENT_RESULT_SUC) {
                 showToastMessage("保存成功");
                 new AsyncTaskQuestion().execute(mQuestionId);
+            }
+        } else if(requestCode == INTENT_REQ_UPDATE_ANSER) {
+            if(resultCode == INTENT_RESULT_SUC) {
+                showToastMessage("修改成功");
+                if(CustApplication.getCurrUser() instanceof Student) {
+                    new AsyncTaskStuAnswer().execute(mQuestionId);
+                } else if(CustApplication.getCurrUser() instanceof Teacher) {
+                    new AsyncTaskTeacherAnswer().execute(mQuestionId);
+                }
             }
         }
     }
@@ -227,6 +239,20 @@ public class ActivityQuestionDetail extends ActivityBase {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventQuestionDetailPage error) {
         showToastMessage(error.getMsg());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserRquestUpdateAnswer(EventUserReqUpdateAnswer event) {
+        Intent intent = new Intent(ActivityQuestionDetail.this, ActivityAnswer.class);
+        intent.putExtra("questionId", mQuestionId);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("question", mQuestion);
+        intent.putExtras(bundle);
+
+        intent.putExtra("answerId", event.getAnswerId());
+        intent.putExtra("oldAnswer", event.getOldAnswer());
+        startActivityForResult(intent, INTENT_REQ_UPDATE_ANSER);
     }
 
     public class AsyncTaskCollect extends AsyncTask<Integer, Void, Boolean> {

@@ -5,39 +5,28 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/dialog_msg_title"
+        android:id="@+id/dialog_option_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#607d8b"
+        android:background="@color/colorPrimary"
         android:textSize="@dimen/text_size_2"
         android:textColor="#fff"
-        android:text="title"
         android:padding="5dp"/>
 
-    <TextView
-        android:id="@+id/dialog_msg_content"
+    <ListView
+        android:id="@+id/dialog_option_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_2"
-        android:text="显示内容"/>
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right">
         <TextView
-            android:id="@+id/dialog_msg_btn_cancel"
+            android:id="@+id/dialog_option_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_2"/>
-        <TextView
-            android:id="@+id/dialog_msg_btn_ok"
-            android:layout_toRightOf="@id/dialog_msg_btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="确认"
             android:padding="5dp"
             android:textSize="@dimen/text_size_2"/>
     </RelativeLayout>

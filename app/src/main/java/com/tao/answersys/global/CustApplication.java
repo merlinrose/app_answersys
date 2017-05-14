@@ -16,6 +16,8 @@ public class CustApplication extends Application{
     private static Student currentStudent;
     private static Teacher currentTeacher;
 
+    private static int userId;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,17 +33,15 @@ public class CustApplication extends Application{
 
         if(isStudent) {
             currentStudent = (Student) user;
+            userId = currentStudent.getStuId();
         } else {
             currentTeacher = (Teacher) user;
+            userId = currentTeacher.getId();
         }
     }
 
     public static int getCurrUserId() {
-        if(mIsStudent) {
-            return ((Student)currentStudent).getStuId();
-        } else {
-            return ((Teacher)currentTeacher).getId();
-        }
+        return userId;
     }
 
     public static Object getCurrUser() {

@@ -5,10 +5,19 @@ package com.tao.answersys.bean;
  */
 
 public class AnswerItem {
+    private int id;
     private String photoUrl;
     private String userName;
     private String dateTime;
     private String content;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getPhotoUrl() {
         return photoUrl;

@@ -162,6 +162,36 @@ public class DaoUser {
         return false;
     }
 
+    public boolean updateAnswer(String answer, int aid, String userType) {
+        HttpClient httpClient = HttpClient.getInstance();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("answerId", aid+"");
+        params.put("userType", userType);
+        params.put("answer", answer);
+
+        try {
+            Response response = httpClient.post(Config.BASE_URL+"User_updateAnswer", params);
+            if(response.code() == 200) {
+                String json = response.body().string();
+                NetBean netBean = new Gson().fromJson(json, NetBean.class);
+
+                if(!netBean.isSuc()) {
+                    EventBus.getDefault().post(new ErrorEventAnswerPage(netBean.getMsg()));
+                }
+
+                return netBean.isSuc();
+            } else {
+                EventBus.getDefault().post(new ErrorEventAnswerPage("服务器异常：http code : " + response.code()));
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            EventBus.getDefault().post(new ErrorEventAnswerPage(e.getMessage()));
+        }
+
+        return false;
+    }
+
     public boolean updateQuestion(QuestionUpdate quesiotn) {
         HttpClient httpClient = HttpClient.getInstance();
         HashMap<String, String> params = new HashMap<String, String>();
