@@ -1,6 +1,9 @@
 package com.tao.answersys.activity;
 
+import android.os.AsyncTask;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -9,8 +12,13 @@ import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.bean.Student;
 import com.tao.answersys.bean.Teacher;
+import com.tao.answersys.event.ErrorEventPersonDataPage;
 import com.tao.answersys.global.Config;
 import com.tao.answersys.global.CustApplication;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +33,14 @@ public class ActivityPersonData extends ActivityBase {
     private final static String TITLE_PERSON_DATA = "个人资料";
     private final static String OPERATION_TEXT = "";
 
+    private EditText mEdittextOldPwd;
+    private EditText mEdittextNewPwd;
+    private EditText mEditetxtConfirmPwd;
+    private View mBtnChangPwd;
+
     @Override
     protected void init() {
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_person_data);
 
         setOnTopBarListener(new TopBarListener() {
@@ -52,6 +66,12 @@ public class ActivityPersonData extends ActivityBase {
         });
         
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -109,5 +129,60 @@ public class ActivityPersonData extends ActivityBase {
         }
         SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.layout_key_value, new String[]{"key", "value"}, new int[]{R.id.kv_key, R.id.kv_value});
         listview.setAdapter(adapter);
+
+        mEdittextOldPwd = (EditText) findViewById(R.id.person_data_old_pwd);
+        mEdittextNewPwd = (EditText) findViewById(R.id.person_data_new_pwd);
+        mEditetxtConfirmPwd = (EditText) findViewById(R.id.person_data_confirm_pwd);
+        mBtnChangPwd = findViewById(R.id.person_data_btn_change_pwd);
+        mBtnChangPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPwd = mEdittextOldPwd.getText().toString();
+                String newPwd = mEdittextNewPwd.getText().toString();
+                String confirmPwd = mEditetxtConfirmPwd.getText().toString().trim();
+
+                if(oldPwd == null || oldPwd.trim().equals("") || newPwd == null || newPwd.trim().equals("")) {
+                    showToastMessage("输入项不能为空");
+                } else {
+                    if(newPwd.equals(confirmPwd)) {
+                        new AsyncTaskChgnePwd().execute(oldPwd, newPwd);
+                    } else {
+                        showToastMessage("两次密码不一致");
+                    }
+
+
+                }
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onError(ErrorEventPersonDataPage error) {
+        showToastMessage(error.getMsg());
+    }
+
+    private class AsyncTaskChgnePwd extends AsyncTask<String, Void, Boolean> {
+        private boolean codeError = false;
+        @Override
+        protected Boolean doInBackground(String... params) {
+            if(params.length == 2) {
+                return  mBizUser.changePwd(params[0], params[1]);
+            } else {
+                codeError = true;
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean o) {
+            if(o != null && o) {
+                showToastMessage("修改成功");
+            } else {
+                if(codeError) {
+                    showToastMessage("程序员开小差了！！");
+                }
+            }
+        }
     }
 }

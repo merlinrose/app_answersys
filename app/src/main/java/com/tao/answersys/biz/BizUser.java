@@ -106,4 +106,8 @@ public class BizUser {
     public Boolean deleteAnswer(int aid) {
         return mDaoUser.deleteAnswer(aid, CustApplication.getUserType());
     }
+
+    public boolean changePwd(String oldPwd, String newPwd) {
+        return mDaoUser.changePwd(CustApplication.getCurrUserId(), CustApplication.getUserType(), oldPwd, newPwd);
+    }
 }

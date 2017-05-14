@@ -24,7 +24,7 @@
         <activity android:name=".activity.ActivityCollect"/>
         <activity android:name=".activity.ActivityMain"/>
         <activity android:name=".activity.ActivityLessonSelect"/>
-        <activity android:name=".activity.ActivityPersonData"/>
+        <activity android:name=".activity.ActivityPersonData" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.ActivitySetting"/>
         <activity android:name=".activity.ActivityUserAnswer"/>
         <activity android:name=".activity.ActivityQuestionDetail"/>

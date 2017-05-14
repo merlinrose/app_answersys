@@ -23,6 +23,7 @@ import com.tao.answersys.event.ErrorEventLessonPage;
 import com.tao.answersys.event.ErrorEventLoginPage;
 import com.tao.answersys.event.ErrorEventMainPage;
 import com.tao.answersys.event.ErrorEventMessagePage;
+import com.tao.answersys.event.ErrorEventPersonDataPage;
 import com.tao.answersys.event.ErrorEventPublishPage;
 import com.tao.answersys.event.ErrorEventQuestionDetailPage;
 import com.tao.answersys.event.ErrorEventQuestionUpdatePage;
@@ -360,6 +361,36 @@ public class DaoUser {
         return netBean == null ? false : netBean.isSuc();
     }
 
+    public boolean changePwd(int uid, String userType, String oldpwd, String newPwd) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("uid", uid+"");
+        params.put("userType", userType);
+        params.put("oldPassword", oldpwd);
+        params.put("newPassword", newPwd);
+
+        try {
+            Response response = HttpClient.getInstance().post(Config.BASE_URL+"User_changePwd", params);
+
+            if(response.code() == 200) {
+                String json = response.body().string();
+                NetBean netBean = new Gson().fromJson(json, NetBean.class);
+
+                if(!netBean.isSuc()) {
+                    EventBus.getDefault().post(new ErrorEventPersonDataPage(netBean.getMsg()));
+                }
+
+                return netBean.isSuc();
+            } else {
+                EventBus.getDefault().post(new ErrorEventPersonDataPage("服务器异常：http code : " + response.code()));
+                return false;
+            }
+        }catch (Exception e) {
+            EventBus.getDefault().post(new ErrorEventPersonDataPage(e.getMessage()));
+            e.printStackTrace();
+        }
+
+        return  false;
+    }
 //    public boolean updateQuestion(QuestionUpdate quesiotn) {
 //        HttpClient httpClient = HttpClient.getInstance();
 //        HashMap<String, String> params = new HashMap<String, String>();
