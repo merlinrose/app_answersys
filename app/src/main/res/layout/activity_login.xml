@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorPrimary">
+    android:gravity="center">
 
     <LinearLayout
         android:id="@+id/login_panel_login"
@@ -33,7 +33,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_2"
-                    android:text="201307040313"
                     android:textColor="@color/textColorPrimaryDark"
                     android:hint="请输入学号或者教师工号"/>
             </android.support.design.widget.TextInputLayout>
@@ -58,7 +57,6 @@
                 android:textColor="@color/textColorPrimaryDark"
                 android:textSize="@dimen/text_size_2"
                 android:inputType="textPassword"
-                android:text = "admin"
                 android:hint="请输入密码" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
@@ -77,14 +75,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/login_panel_login"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center_horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_5"
-            android:text="课后答疑客户端"/>
+            android:textStyle="bold"
+            android:text="高校课程答疑系统"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -101,6 +101,11 @@ public class ActivityPersonData extends ActivityBase {
             mapGender.put("key", "性别");
             mapGender.put("value", teacher.getGender());
             data.add(mapGender);
+
+            Map<String, String> mapLessons = new HashMap<String, String>();
+            mapLessons.put("key", "教授课程");
+            mapLessons.put("value", teacher.getTeachLesson());
+            data.add(mapLessons);
         }
         SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.layout_key_value, new String[]{"key", "value"}, new int[]{R.id.kv_key, R.id.kv_value});
         listview.setAdapter(adapter);

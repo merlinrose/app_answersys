@@ -1,9 +1,18 @@
 package com.tao.answersys.activity;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
@@ -14,9 +23,16 @@ import com.tao.answersys.event.ErrorEventLoginPage;
 import com.tao.answersys.event.ErrorEventMainPage;
 import com.tao.answersys.global.CustApplication;
 
+import net.qiujuer.genius.blur.StackBlur;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import static android.view.WindowManager.*;
 
 /**
  * Created by LiangTao on 2017/4/25.
@@ -25,10 +41,46 @@ import org.greenrobot.eventbus.ThreadMode;
 public class ActivityLogin extends ActivityBase{
     @Override
     protected void init() {
+        //设置状态栏透明
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_login);
         EventBus.getDefault().register(this);
 
+        initBackground();
         initView();
+    }
+
+    private void initBackground() {
+        AssetManager assetManager = getResources().getAssets();
+        InputStream is = null;
+        try {
+            is = assetManager.open("login_bg.jpg");
+            Bitmap bg = BitmapFactory.decodeStream(is);
+            Bitmap newBitmap = StackBlur.blurNatively(bg, 45, false);
+            getWindow().getDecorView().setBackground(new BitmapDrawable(newBitmap));
+        } catch (Exception e) {
+            Toast.makeText(this, "登录背景设置失败", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+
+                }
+            }
+        }
     }
 
     @Override
@@ -40,6 +92,8 @@ public class ActivityLogin extends ActivityBase{
     private void initView() {
         final EditText edittextPwd = (EditText) findViewById(R.id.login_edittext_pwd);
         final EditText edittextAccount = (EditText) findViewById(R.id.login_edittext_account);
+        edittextAccount.setText("201307040313");
+        edittextPwd.setText("admin");
         findViewById(R.id.login_button_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +101,8 @@ public class ActivityLogin extends ActivityBase{
                 String pwd = edittextPwd.getText().toString();
 
                 if(account == null || account.equals("") || pwd == null || pwd.equals("")) {
+            //        AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
+               //     asyncTaskLogin.execute("201307040313", "admin");
                     showToastMessage("输入项不能为空！");
                 } else {
                     AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();

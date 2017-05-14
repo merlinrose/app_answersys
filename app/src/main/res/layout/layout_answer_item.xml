@@ -28,7 +28,6 @@
                 android:id="@+id/answer_item_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="王瑶"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_size_2" />
 
@@ -36,7 +35,6 @@
                 android:id="@+id/answer_item_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今天 12:09"
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/text_size_1" />
         </RelativeLayout>
@@ -44,7 +42,7 @@
             android:id="@+id/answer_item_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="今天在做高等数学的时候，遇到一道几何题，已知两边之长，计算第三边的题目，希望老师解答一下！"
+            android:autoLink="web"
             android:textSize="@dimen/text_size_1" />
     </LinearLayout>
 

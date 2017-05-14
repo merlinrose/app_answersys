@@ -13,6 +13,15 @@ public class Teacher {
     private String photo;
     private String range;
     private String num;
+    private String teachLesson;
+
+    public String getTeachLesson() {
+        return teachLesson;
+    }
+
+    public void setTeachLesson(String teachLesson) {
+        this.teachLesson = teachLesson;
+    }
 
     public int getId() {
         return id;
