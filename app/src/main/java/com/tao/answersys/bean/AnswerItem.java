@@ -8,11 +8,29 @@ public class AnswerItem {
     private int id;
     private String photoUrl;
     private String userName;
+    private int userId;
     private String dateTime;
     private String content;
+    private String userType;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     public int getId() {
         return id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setId(int id) {

@@ -102,4 +102,8 @@ public class BizUser {
 
         return mDaoUser.getNewMessage(lastLoadDate);
     }
+
+    public Boolean deleteAnswer(int aid) {
+        return mDaoUser.deleteAnswer(aid, CustApplication.getUserType());
+    }
 }

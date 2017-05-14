@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消"
-            android:padding="5dp"
+            android:padding="15dp"
             android:textSize="@dimen/text_size_2"/>
         <TextView
             android:id="@+id/dialog_msg_btn_ok"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="确认"
-            android:padding="5dp"
+            android:padding="15dp"
             android:textSize="@dimen/text_size_2"/>
     </RelativeLayout>
 </LinearLayout>

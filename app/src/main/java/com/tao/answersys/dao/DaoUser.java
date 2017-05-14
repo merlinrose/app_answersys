@@ -335,6 +335,31 @@ public class DaoUser {
         return nbMessages == null ? null : nbMessages.getResult();
     }
 
+    public Boolean deleteAnswer(int aid, String userType) {
+        NetBean netBean = null;
+        try {
+            Response response = HttpClient.getInstance().get(Config.BASE_URL + "User_deleteAnswer?answerId=" + aid + "&userType=" + userType);
+
+            if (response.code() == 200) {
+                String json = response.body().string();
+                netBean = new Gson().fromJson(json, NetBean.class);
+
+                if (netBean.isSuc()) {
+                    return true;
+                } else {
+                    EventBus.getDefault().post(new ErrorEventQuestionDetailPage(netBean.getMsg()));
+                }
+            } else {
+                EventBus.getDefault().post(new ErrorEventQuestionDetailPage("http code:" + response.code()));
+            }
+        } catch (Exception e) {
+            EventBus.getDefault().post(new ErrorEventQuestionDetailPage(e.getMessage()));
+            e.printStackTrace();
+        }
+
+        return netBean == null ? false : netBean.isSuc();
+    }
+
 //    public boolean updateQuestion(QuestionUpdate quesiotn) {
 //        HttpClient httpClient = HttpClient.getInstance();
 //        HashMap<String, String> params = new HashMap<String, String>();

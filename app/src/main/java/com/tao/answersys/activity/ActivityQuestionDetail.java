@@ -22,6 +22,7 @@ import com.tao.answersys.bean.Student;
 import com.tao.answersys.bean.Teacher;
 import com.tao.answersys.biz.BizQuestion;
 import com.tao.answersys.event.ErrorEventQuestionDetailPage;
+import com.tao.answersys.event.EventUserReqDeleteAnswer;
 import com.tao.answersys.event.EventUserReqUpdateAnswer;
 import com.tao.answersys.global.Config;
 import com.tao.answersys.global.CustApplication;
@@ -255,6 +256,42 @@ public class ActivityQuestionDetail extends ActivityBase {
         startActivityForResult(intent, INTENT_REQ_UPDATE_ANSER);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserRequestDeleteAnswer(EventUserReqDeleteAnswer event) {
+        new AsyncTaskDeleteAnswer().execute(event.getAnswerId());
+    }
+
+    public class AsyncTaskDeleteAnswer extends AsyncTask<Integer, Void, Boolean> {
+        private boolean codeError = false;
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            if(params.length == 1) {
+                return mBizUser.deleteAnswer(params[0]);
+            } else {
+                codeError = true;
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result == true) {
+                showToastMessage("删除成功");
+
+                if(CustApplication.getCurrUser() instanceof Student) {
+                    new AsyncTaskStuAnswer().execute(mQuestionId);
+                } else if(CustApplication.getCurrUser() instanceof Teacher) {
+                    new AsyncTaskTeacherAnswer().execute(mQuestionId);
+                }
+            } else if(codeError == true){
+                showToastMessage("程序员开小差了");
+            } else {
+                //showToastMessage("收藏失败");
+            }
+        }
+    }
+
     public class AsyncTaskCollect extends AsyncTask<Integer, Void, Boolean> {
         private boolean codeError = false;
         @Override
@@ -365,6 +402,7 @@ public class ActivityQuestionDetail extends ActivityBase {
                 if(result) {
                     switchCollectStatus(false);
                     isCollect = false;
+                    showToastMessage("取消收藏");
                 } else {
 
                 }

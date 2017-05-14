@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.tao.answersys.R;
 import com.tao.answersys.bean.AnswerItem;
+import com.tao.answersys.event.EventUserReqDeleteAnswer;
 import com.tao.answersys.event.EventUserReqUpdateAnswer;
+import com.tao.answersys.global.CustApplication;
 import com.tao.answersys.view.OptionDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,12 +58,14 @@ class ViewHolderAnswer extends RecyclerView.ViewHolder{
     private TextView textviewUserName;
     private TextView textviewDateTime;
     private TextView textviewCotent;
+    private View btnEdit;
 
     public ViewHolderAnswer(View itemView) {
         super(itemView);
         textviewUserName = (TextView) itemView.findViewById(R.id.answer_item_user);
         textviewCotent = (TextView) itemView.findViewById(R.id.answer_item_content);
         textviewDateTime = (TextView) itemView.findViewById(R.id.answer_item_date);
+        btnEdit = itemView.findViewById(R.id.answer_item_btn_edit);
     }
 
     public void bindData(final AnswerItem item, final Context context) {
@@ -69,27 +73,30 @@ class ViewHolderAnswer extends RecyclerView.ViewHolder{
         textviewCotent.setText(item.getContent());
         textviewDateTime.setText(item.getDateTime());
 
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                final OptionDialog optionDialog = new OptionDialog(context, new String[]{"修改", "删除"});
-                optionDialog.setTitle("编辑").show();
+        if(item.getUserId() == CustApplication.getCurrUserId() && item.getUserType().equals(CustApplication.getUserType())) {
+            btnEdit.setVisibility(View.VISIBLE);
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final OptionDialog optionDialog = new OptionDialog(context, new String[]{"修改", "删除"});
+                    optionDialog.setTitle("编辑").show();
 
-                optionDialog.setOptionListener(new OptionDialog.OnOptionClickListener() {
-                    @Override
-                    public void onOptionButtonClick(int optionId) {
-                        if(optionId == 0) {
-                            EventBus.getDefault().post(new EventUserReqUpdateAnswer(item.getId(), item.getContent()));
-                            optionDialog.dismiss();
-                        } else if(optionId == 1){
-                            Toast.makeText(context, "我要删除", Toast.LENGTH_SHORT).show();
-                            optionDialog.dismiss();
+                    optionDialog.setOptionListener(new OptionDialog.OnOptionClickListener() {
+                        @Override
+                        public void onOptionButtonClick(int optionId) {
+                            if(optionId == 0) {
+                                optionDialog.dismiss();
+                                EventBus.getDefault().post(new EventUserReqUpdateAnswer(item.getId(), item.getContent()));
+                            } else if(optionId == 1){
+                                optionDialog.dismiss();
+                                EventBus.getDefault().post(new EventUserReqDeleteAnswer(item.getId()));
+                            }
                         }
-                    }
-                });
-
-                return true;
-            }
-        });
+                    });
+                }
+            });
+        } else {
+            btnEdit.setVisibility(View.GONE);
+        }
     }
 }
