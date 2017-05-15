@@ -141,6 +141,9 @@ public class ActivityPersonData extends ActivityBase {
                 String newPwd = mEdittextNewPwd.getText().toString();
                 String confirmPwd = mEditetxtConfirmPwd.getText().toString().trim();
 
+                mEditetxtConfirmPwd.setText("");
+                mEdittextNewPwd.setText("");
+                mEdittextOldPwd.setText("");
                 if(oldPwd == null || oldPwd.trim().equals("") || newPwd == null || newPwd.trim().equals("")) {
                     showToastMessage("输入项不能为空");
                 } else {
@@ -149,8 +152,6 @@ public class ActivityPersonData extends ActivityBase {
                     } else {
                         showToastMessage("两次密码不一致");
                     }
-
-
                 }
             }
         });
