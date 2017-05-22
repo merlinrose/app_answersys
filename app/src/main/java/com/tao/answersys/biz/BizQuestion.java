@@ -36,7 +36,7 @@ public class BizQuestion {
             String imgUrls[] = question.getImgUrls();
             for(int i = 0; i < (imgUrls == null ? 0: imgUrls.length); i++) {
                 if(!imgUrls[i].startsWith("http://")) {
-                    imgUrls[i] = Config.BASE_URL + imgUrls[i];
+                    imgUrls[i] = Config.HOST+":"+Config.PORT + "/" + imgUrls[i];
                 }
             }
         }

@@ -31,6 +31,7 @@ public abstract class ActivityBase extends AppCompatActivity{
     protected final static int INTENT_REQ_LESSONS = 4;
     protected final static int INTENT_REQ_UPDATE = 5;
     protected final static int INTENT_REQ_UPDATE_ANSER = 6;
+    protected final static int INTENT_REQ_PHOTO = 7;
 
     private TopBarListener mTopBarListener;
     private final static String TAG = "ActivityBase";
@@ -50,7 +51,6 @@ public abstract class ActivityBase extends AppCompatActivity{
         mBizQuestion = new BizQuestion();
         mBizUser = new BizUser();
     }
-
 
     private void initToolBar(){
         try {

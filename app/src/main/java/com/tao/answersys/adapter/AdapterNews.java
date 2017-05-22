@@ -95,10 +95,12 @@ class ViewHolderNews extends RecyclerView.ViewHolder{
     }
 
     public void bindData(final Question data) {
-        AdapterImageShow adapter = new AdapterImageShow(itemView.getContext());
-        adapter.setData(data.getImgUrls());
-        mImageShowView.setNumColumns(3);
-        mImageShowView.setAdapter(adapter);
+      //  if(data.getImgUrls() != null && data.getImgUrls().length != 0) {
+            AdapterImageShow adapter = new AdapterImageShow(itemView.getContext());
+            adapter.setData(data.getImgUrls());
+            mImageShowView.setNumColumns(3);
+            mImageShowView.setAdapter(adapter);
+ //       }
 
         mTextviewLesson.setText(data.getLesson());
         mTextviewSummary.setText(data.getSummary());

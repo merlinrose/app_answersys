@@ -63,11 +63,14 @@ public class ImageLoader {
     }
 
     public Bitmap getImage(String url) {
+        Log.e("getImage form mLruCache", url);
         Bitmap bitmap = mLruCache.get(url);
 
         if (bitmap == null) {
+            Log.e("getImage form mDisk", url);
             File imgFile = mDiskLruCache.get(url);
             if (imgFile != null) {
+                Log.e("getImage form mDisk suc", url);
                 bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
 
@@ -77,6 +80,7 @@ public class ImageLoader {
                     if (response.code() == 200) {
                         bitmap = BitmapFactory.decodeStream(response.body().byteStream());
                         if (bitmap != null) {
+                            Log.e("put into cache", url);
                             mLruCache.put(url, bitmap);
                             mDiskLruCache.putImage(url, bitmap);
                         }

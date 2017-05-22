@@ -10,6 +10,7 @@ import com.tao.answersys.bean.NbMessages;
 import com.tao.answersys.bean.NbPublishResult;
 import com.tao.answersys.bean.NbQuestionPublish;
 import com.tao.answersys.bean.NbQuestions;
+import com.tao.answersys.bean.NbUploadImageResult;
 import com.tao.answersys.bean.NbUser;
 import com.tao.answersys.bean.NetBean;
 import com.tao.answersys.bean.Question;
@@ -36,8 +37,12 @@ import com.tao.answersys.net.HttpClient;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Response;
 
@@ -99,18 +104,52 @@ public class DaoUser {
     }
 
     public boolean publish(NbQuestionPublish question) {
+        List<String> imgPath = null;
+        //上传图片文件
+        try {
+            List<String> fileList = question.getAttchList();
+            if(fileList != null || fileList.size() != 0) {
+                List<File> files = new ArrayList<File>();
+                for(String fileUrl : fileList) {
+                    files.add(new File(fileUrl));
+                }
+                Map map = new HashMap<String, String>();
+                map.put("id", question.getStuId()+"");
+                Response response = HttpClient.getInstance().uploadFile(Config.BASE_URL + "User_upload", map, files);
+
+                if(response.code() == 200) {
+                    String json = response.body().string();
+                    NbUploadImageResult uploadResult = new Gson().fromJson(json, NbUploadImageResult.class);
+
+                    if(!uploadResult.isSuc()) {
+                        EventBus.getDefault().post(new ErrorEventPublishPage(uploadResult.getMsg()));
+                        return false;
+                    } else {
+                        imgPath = uploadResult.getResult();
+                    }
+                } else {
+                    EventBus.getDefault().post(new ErrorEventPublishPage("服务器异常：http code : " + response.code()));
+                    return false;
+                }
+            }
+        } catch (IOException e){
+            EventBus.getDefault().post(new ErrorEventPublishPage(e.getMessage()));
+            return false;
+        }
+
+        //上传文本内容
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("stuId", question.getStuId()+"");
         params.put("title", question.getTitle());
         params.put("content", question.getContent());
         params.put("lessonId", question.getLessonId()+"");
+        params.put("attachStrs", new Gson().toJson(imgPath));
 
         try {
             Response response = HttpClient.getInstance().post(Config.BASE_URL+"User_publish", params);
 
             if(response.code() == 200) {
                 String json = response.body().string();
-                Log.e("json", json);
                 NbPublishResult netBean = new Gson().fromJson(json, NbPublishResult.class);
 
                 if(!netBean.isSuc()) {

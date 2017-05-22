@@ -16,7 +16,10 @@ import android.widget.Toast;
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.adapter.AdapterAnswers;
+import com.tao.answersys.adapter.ImgsRecyclerViewAdapter;
+import com.tao.answersys.adapter.MediaRecyclerViewAdapter;
 import com.tao.answersys.bean.AnswerItem;
+import com.tao.answersys.bean.ImgViewItem;
 import com.tao.answersys.bean.Question;
 import com.tao.answersys.bean.Student;
 import com.tao.answersys.bean.Teacher;
@@ -31,6 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +60,7 @@ public class ActivityQuestionDetail extends ActivityBase {
     private View btnCollect;
 
     private boolean isCollect;
+    private ImgsRecyclerViewAdapter imgAdapter;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,6 +135,21 @@ public class ActivityQuestionDetail extends ActivityBase {
     }
 
     private void initRecyclerView() {
+        //初始化图片显示
+        RecyclerView recyclervViewImgs = (RecyclerView) findViewById(R.id.qd_img_list);
+        RecyclerView.LayoutManager imgLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclervViewImgs.setLayoutManager(imgLayoutManager);
+        imgAdapter = new ImgsRecyclerViewAdapter(this);
+        recyclervViewImgs.setAdapter(imgAdapter);
+        recyclervViewImgs.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.set(0, 20, 0, 20);
+            }
+        });
+
+        //初始化学生回答
         mAdapterStuAnswer = new AdapterAnswers(this);
         RecyclerView recyclerViewStuAnswer = (RecyclerView) findViewById(R.id.qd_listview_stu_answer);
         RecyclerView.LayoutManager layoutManger = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
@@ -143,6 +163,7 @@ public class ActivityQuestionDetail extends ActivityBase {
         recyclerViewStuAnswer.setLayoutManager(layoutManger);
         recyclerViewStuAnswer.setAdapter(mAdapterStuAnswer);
 
+        //初始化教师回答
         mAdapterTeacherAnswer = new AdapterAnswers(this);
         RecyclerView.LayoutManager layoutManger1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         RecyclerView recyclerViewTeacherAnswer = (RecyclerView) findViewById(R.id.qd_listview_teacher_answer);
@@ -169,6 +190,16 @@ public class ActivityQuestionDetail extends ActivityBase {
         mTextviewUser.setText(question.getUserName());
         switchCollectStatus(question.isCollect());
         mTextviewReadSum.setText((question.getReadSum()+1)+"");
+
+        String[] imgUrls = question.getImgUrls();
+        if(imgUrls != null) {
+            List<ImgViewItem> imgData = new ArrayList<ImgViewItem>(imgUrls.length);
+            for(String url : imgUrls) {
+                imgData.add(new ImgViewItem(Config.HOST+":"+Config.PORT+"/"+url));
+            }
+            imgAdapter.setData(imgData);
+            imgAdapter.notifyDataSetChanged();
+        }
 
         initUpdateBtn();
     }

@@ -1,5 +1,7 @@
 package com.tao.answersys.bean;
 
+import java.util.List;
+
 /**
  * Created by LiangTao on 2017/4/25.
  */
@@ -10,6 +12,7 @@ public class NbQuestionPublish {
     private int id;
     private String title;
     private String content;
+    private List<String> attchList;
 
     public void setLessonId(int lessonId) {
         this.lessonId = lessonId;
@@ -49,5 +52,13 @@ public class NbQuestionPublish {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<String> getAttchList() {
+        return attchList;
+    }
+
+    public void setAttchList(List<String> attchList) {
+        this.attchList = attchList;
     }
 }

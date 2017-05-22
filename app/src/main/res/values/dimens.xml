@@ -32,5 +32,6 @@
     <!--global-->
     <dimen name="block_padding">15dp</dimen>
 
+    <dimen name="media_item_size">70dp</dimen>
     <dimen name="setting_item_height">50dp</dimen>
 </resources>

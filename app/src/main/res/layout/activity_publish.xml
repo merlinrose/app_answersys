@@ -42,6 +42,11 @@
             android:maxLines="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/publish_attch_list"
+        android:layout_width="wrap_content"
+        android:padding="5dp"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/pulish_edittext_content"
         android:layout_width="match_parent"
