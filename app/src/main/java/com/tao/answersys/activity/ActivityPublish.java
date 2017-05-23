@@ -20,6 +20,7 @@ import com.tao.answersys.bean.Lesson;
 import com.tao.answersys.bean.MediaViewBean;
 import com.tao.answersys.bean.NbQuestionPublish;
 import com.tao.answersys.event.ErrorEventPublishPage;
+import com.tao.answersys.event.EventPublishProgress;
 import com.tao.answersys.global.CustApplication;
 import com.tao.answersys.utils.FileUtil;
 import com.tao.answersys.view.MessageDialog;
@@ -251,7 +252,7 @@ public class ActivityPublish extends ActivityBase {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(ActivityPublish.this, "开始上传", Toast.LENGTH_SHORT).show();
+            showProgressDialog("正在上传数据");
         }
 
         @Override
@@ -262,6 +263,7 @@ public class ActivityPublish extends ActivityBase {
                 if(result) {
                     final MessageDialog dialog =  new MessageDialog(ActivityPublish.this).setTitle("提示").setMessage("你的问题成功发布");
                     dialog.setOutsideCancelable(false);
+                    dialog.hideCancelButton();
                     dialog.setButtonListener(new MessageDialog.OnDialogButtonClickListener() {
                         @Override
                         public void onOkButtonClick() {
@@ -282,5 +284,10 @@ public class ActivityPublish extends ActivityBase {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPublishError(ErrorEventPublishPage event) {
         showToastMessage(event.getMsg());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPublishProgressUpdate(EventPublishProgress event) {
+        updateProgressMessage(event.getProgress()+"");
     }
 }

@@ -31,6 +31,7 @@ import com.tao.answersys.event.ErrorEventQuestionUpdatePage;
 import com.tao.answersys.event.ErrorEventUserAnswerPage;
 import com.tao.answersys.event.ErrorEventUserQuestionPage;
 import com.tao.answersys.event.EventNewsUpdate;
+import com.tao.answersys.event.EventPublishProgress;
 import com.tao.answersys.global.Config;
 import com.tao.answersys.global.CustApplication;
 import com.tao.answersys.net.HttpClient;
@@ -105,7 +106,16 @@ public class DaoUser {
 
     public boolean publish(NbQuestionPublish question) {
         List<String> imgPath = null;
+        /*final EventPublishProgress event = new EventPublishProgress("正在上传数据");*/
         //上传图片文件
+        /*HttpClient.getInstance().setProgressCallBack(new HttpClient.IProgressCallBack() {
+            @Override
+            public void onProgressUpdate(float hasFinish, float allSize) {
+                event.setProgress("正在上传图片：" + hasFinish + "/" + allSize);
+                EventBus.getDefault().post(event);
+            }
+        });*/
+
         try {
             List<String> fileList = question.getAttchList();
             if(fileList != null || fileList.size() != 0) {
@@ -136,6 +146,9 @@ public class DaoUser {
             EventBus.getDefault().post(new ErrorEventPublishPage(e.getMessage()));
             return false;
         }
+
+       /* event.setProgress("正在上传文本内容");
+        EventBus.getDefault().post(event);*/
 
         //上传文本内容
         HashMap<String, String> params = new HashMap<String, String>();

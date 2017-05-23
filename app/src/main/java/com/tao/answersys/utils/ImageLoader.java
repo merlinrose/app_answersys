@@ -7,12 +7,17 @@ import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
 
+import com.tao.answersys.bean.ImageLoadTask;
 import com.tao.answersys.event.ErrorEventMainPage;
 import com.tao.answersys.net.HttpClient;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 import okhttp3.Response;
 
@@ -25,6 +30,8 @@ public class ImageLoader {
     private DiskLruCache mDiskLruCache;
     private LruCache<String, Bitmap> mLruCache;
     private static ImageLoader mImageLoader;
+    private boolean isGettingImg = false;
+    private Queue<ImageLoadTask> queue = new LinkedList<ImageLoadTask>();
 
     private ImageLoader() {
 
@@ -45,12 +52,17 @@ public class ImageLoader {
     }
 
     public void loadImageAsync(final String url, final ImageView imageView) {
+        if(isGettingImg) {
+            queue.add(new ImageLoadTask(url, imageView));
+            return;
+        }
+
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
+                isGettingImg = true;
                 Bitmap bitmap = null;
                 bitmap = getImage(url);
-
                 return bitmap;
             }
 
@@ -58,6 +70,11 @@ public class ImageLoader {
             protected void onPostExecute(Bitmap bitmap) {
                 imageView.setImageBitmap(bitmap);
                 super.onPostExecute(bitmap);
+                isGettingImg = false;
+                if(queue.size() > 0) {
+                    ImageLoadTask task = queue.poll();
+                    loadImageAsync(task.getUrl(), task.getImageView());
+                }
             }
         }.execute();
     }

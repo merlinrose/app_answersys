@@ -9,6 +9,7 @@ import com.tao.answersys.bean.User;
 import com.tao.answersys.dao.DaoUser;
 import com.tao.answersys.global.Config;
 import com.tao.answersys.global.CustApplication;
+import com.tao.answersys.utils.SafeUtil;
 import com.tao.answersys.utils.SharePreferencesManager;
 
 import java.util.Calendar;
@@ -28,7 +29,7 @@ public class BizUser {
     }
 
     public Object login(String account, String pwd) {
-        User user = mDaoUser.login(account, pwd);
+        User user = mDaoUser.login(account, SafeUtil.getMD5Str(pwd));
 
         if(user == null) {
             return null;
@@ -74,7 +75,6 @@ public class BizUser {
         }
     }
 
-
     public boolean cancelCollect(int qid) {
         return mDaoUser.cancelCollect(CustApplication.getCurrUserId(), qid, CustApplication.getUserType());
     }
@@ -108,6 +108,6 @@ public class BizUser {
     }
 
     public boolean changePwd(String oldPwd, String newPwd) {
-        return mDaoUser.changePwd(CustApplication.getCurrUserId(), CustApplication.getUserType(), oldPwd, newPwd);
+        return mDaoUser.changePwd(CustApplication.getCurrUserId(), CustApplication.getUserType(), SafeUtil.getMD5Str(oldPwd), SafeUtil.getMD5Str(newPwd));
     }
 }

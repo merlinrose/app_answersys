@@ -120,8 +120,20 @@ public class ActivityLogin extends ActivityBase{
 
     private class AsyncTaskLogin extends AsyncTask<String, Void, Object> {
         private boolean codeError = false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("正在登录中");
+        }
+
         @Override
         protected Object doInBackground(String... params) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(params.length == 2) {
                 return  mBizUser.login(params[0], params[1]);
             } else {
@@ -133,6 +145,7 @@ public class ActivityLogin extends ActivityBase{
 
         @Override
         protected void onPostExecute(Object o) {
+            dismissProgressDialog();
             if(o != null) {
                 if(o instanceof Teacher) {
                     CustApplication.setCurrentUser(false, o);

@@ -16,6 +16,7 @@ import com.tao.answersys.R;
 import com.tao.answersys.biz.BizQuestion;
 import com.tao.answersys.biz.BizUser;
 import com.tao.answersys.utils.LogUtil;
+import com.tao.answersys.view.ProgressDialog;
 
 /**
  * Created by LiangTao on 2017/4/13.
@@ -38,6 +39,8 @@ public abstract class ActivityBase extends AppCompatActivity{
 
     protected BizQuestion mBizQuestion;
     protected BizUser mBizUser;
+
+    protected ProgressDialog mProgressDialog = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,12 +89,12 @@ public abstract class ActivityBase extends AppCompatActivity{
         this.mTopBarListener = listener;
     }
 
-    public void gotoActivity(ActivityBase self, Class clazz) {
+    protected void gotoActivity(ActivityBase self, Class clazz) {
         Intent intent = new Intent(self, clazz);
         startActivity(intent);
     }
 
-    public void showToastMessage(String message){
+    protected void showToastMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -100,5 +103,26 @@ public abstract class ActivityBase extends AppCompatActivity{
         String onSetTitle();
         void onButtonOperationClick();
         String onSetOperationText();
+    }
+
+    protected void updateProgressMessage(String msg) {
+        if(mProgressDialog != null) {
+            mProgressDialog.setMessage(msg);
+        }
+    }
+
+    protected void showProgressDialog(String message) {
+        if(mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(message);
+            mProgressDialog.show();
+        }
+    }
+
+    protected void dismissProgressDialog() {
+        if(mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 }

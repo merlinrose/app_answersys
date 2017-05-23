@@ -40,6 +40,10 @@ public class HttpClient {
         return instance;
     }
 
+    public void setProgressCallBack(IProgressCallBack callBack) {
+        this.progressCallBack = callBack;
+    }
+
     public Response get(String url) throws IOException {
         Log.e("get req", url);
 
@@ -127,12 +131,9 @@ public class HttpClient {
                         sink.write(buf, readCount);
 
                         instance.hasFinishedSize += readCount;
-                        Log.e("progress:" ,(instance.hasFinishedSize / instance.allSize)+"%");
                         if(instance.progressCallBack != null) {
                             instance.hasFinishedSize += readCount;
-
-                            Log.e("progress:" ,(instance.hasFinishedSize / instance.allSize)+"%");
-                            instance.progressCallBack.onProgressUpdate(instance.hasFinishedSize / instance.allSize);
+                            instance.progressCallBack.onProgressUpdate(instance.hasFinishedSize , instance.allSize);
                         }
                     }
                 } catch (Exception e) {
@@ -154,6 +155,6 @@ public class HttpClient {
     }
 
     public interface IProgressCallBack {
-        public void onProgressUpdate(float progress);
+        public void onProgressUpdate(float hasFinish, float allSize);
     }
 }

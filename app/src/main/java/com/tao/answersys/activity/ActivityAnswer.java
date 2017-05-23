@@ -56,7 +56,11 @@ public class ActivityAnswer extends ActivityBase{
 
             @Override
             public String onSetTitle() {
-                return TITLE_ANSWER;
+                if(mAnswerId != -1) {
+                    return TITLE_UPDATE_ANSWER;
+                } else {
+                    return TITLE_ANSWER;
+                }
             }
 
             @Override
