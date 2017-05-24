@@ -50,7 +50,7 @@ public class AdapterNews extends RecyclerView.Adapter<ViewHolderNews>{
         }
 
         if(data != null) {
-            this.mData.addAll(0, data);
+            this.mData.addAll(data);
         }
     }
 

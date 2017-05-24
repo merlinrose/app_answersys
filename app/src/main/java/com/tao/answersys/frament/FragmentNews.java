@@ -2,19 +2,17 @@ package com.tao.answersys.frament;
 
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.tao.answersys.R;
 import com.tao.answersys.adapter.AdapterNews;
 import com.tao.answersys.bean.Question;
 import com.tao.answersys.event.EventNewsUpdate;
 import com.tao.answersys.frament.base.FragmentBase;
+import com.tao.answersys.listener.RecyclerViewScrollListener;
 import com.tao.answersys.presenter.news.PresenterNews;
 import com.tao.answersys.presenter.news.impl.PresenterNewsImpl;
 import com.tao.answersys.presenter.news.PresenterViewNews;
@@ -25,7 +23,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +33,8 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
     private PresenterNews mPresenterNews;
     private AdapterNews mNewAdapter;
     private static int ITEM_DIVIDER_HEIGHT = 40;
-    private SwipeRefreshLayout refreshLayout = null;
+    private SwipeRefreshLayout mRefreshLayout = null;
+    private View loadView;
 
     @Override
     public void init() {
@@ -55,12 +53,14 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
     }
 
     private void initRefreshView() {
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.frag_news_refresh);
+        loadView = findViewById(R.id.frag_news_loading);
+
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.frag_news_refresh);
         //设置下拉多少会触发更新
-        refreshLayout.setDistanceToTriggerSync(400);
+        mRefreshLayout.setDistanceToTriggerSync(400);
         //设置下拉圆圈的大小
-        refreshLayout.setSize(SwipeRefreshLayout.LARGE);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPresenterNews.loadData(1);
@@ -82,14 +82,29 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
             }
         });
         recyclerView.setAdapter(mNewAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener() {
+            @Override
+            public void onLoadMoreData() {
+                loadView.setVisibility(View.VISIBLE);
+                mPresenterNews.loadMoreData();
+            }
+        });
+    }
+
+    public void loadError() {
+        if(mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+            loadView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void updateView(List<Question> data) {
         mNewAdapter.setData(data);
 
-        if(refreshLayout != null && refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(false);
+        if(mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
             mNewAdapter.notifyItemRangeChanged(0, data == null ? 0 : data.size());
         } else {
             int count = mNewAdapter.getItemCount();
@@ -97,11 +112,22 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
         }
     }
 
+    @Override
+    public void addData(List<Question> data) {
+        if(mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(false);
+            mNewAdapter.notifyItemRangeChanged(0, data == null ? 0 : data.size());
+            loadView.setVisibility(View.GONE);
+        } else {
+            int count = mNewAdapter.getItemCount();
+            mNewAdapter.addData(data);
+            mNewAdapter.notifyItemRangeInserted(count, data == null ? 0 : data.size());
+            loadView.setVisibility(View.GONE);
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewsUpdate(EventNewsUpdate event) {
-       // List<Question> data = new ArrayList<Question>();
-      //  data.add(event.getQuestion());
         mPresenterNews.loadData(1);
-       // Toast.makeText(getContext(), "有新动态了："+event.getQuestion().getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

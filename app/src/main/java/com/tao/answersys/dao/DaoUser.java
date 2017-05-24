@@ -118,7 +118,7 @@ public class DaoUser {
 
         try {
             List<String> fileList = question.getAttchList();
-            if(fileList != null || fileList.size() != 0) {
+            if(fileList != null && fileList.size() != 0) {
                 List<File> files = new ArrayList<File>();
                 for(String fileUrl : fileList) {
                     files.add(new File(fileUrl));

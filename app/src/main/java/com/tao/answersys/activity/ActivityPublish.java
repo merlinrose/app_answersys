@@ -284,6 +284,7 @@ public class ActivityPublish extends ActivityBase {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPublishError(ErrorEventPublishPage event) {
         showToastMessage(event.getMsg());
+        dismissProgressDialog();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -6,4 +6,6 @@ package com.tao.answersys.presenter.news;
 
 public interface PresenterNews {
     public void loadData(int page);
+
+    public void loadMoreData();
 }

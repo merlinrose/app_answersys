@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface PresenterViewNews {
     public void updateView(List<Question> data);
+    public void addData(List<Question> data);
+    public void loadError();
 }
