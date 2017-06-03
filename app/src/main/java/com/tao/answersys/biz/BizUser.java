@@ -89,8 +89,8 @@ public class BizUser {
         return reasult;
     }
 
-    public boolean feedback(String content, String email, String tel) {
-        return mDaoUser.feedback(content, email, tel, CustApplication.getUserType());
+    public boolean feedback(String content, String email, String tel, String type) {
+        return mDaoUser.feedback(content, email, tel, CustApplication.getUserType(), type);
     }
 
     public List<Message> getNewMessage() {
@@ -109,5 +109,14 @@ public class BizUser {
 
     public boolean changePwd(String oldPwd, String newPwd) {
         return mDaoUser.changePwd(CustApplication.getCurrUserId(), CustApplication.getUserType(), SafeUtil.getMD5Str(oldPwd), SafeUtil.getMD5Str(newPwd));
+    }
+
+    public boolean checkMsg() {
+        SharePreferencesManager manager = SharePreferencesManager.getInstance();
+        Calendar cal = Calendar.getInstance();
+
+        long lastLoadDate = manager.getDate(Config.SHARED_PREF_KEY_MESSAGE_LOAD_DATE, cal.getTime()).getTime();
+
+        return mDaoUser.checkNewMessage(lastLoadDate);
     }
 }

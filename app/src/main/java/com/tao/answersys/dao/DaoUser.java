@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.tao.answersys.bean.Lesson;
 import com.tao.answersys.bean.Message;
+import com.tao.answersys.bean.NbCheckMsg;
 import com.tao.answersys.bean.NbLessons;
 import com.tao.answersys.bean.NbMessages;
 import com.tao.answersys.bean.NbPublishResult;
@@ -331,13 +332,13 @@ public class DaoUser {
         return netBean == null ? false : netBean.isSuc();
     }
 
-    public boolean feedback(String content, String email, String tel, String userType) {
+    public boolean feedback(String content, String email, String tel, String userType, String type) {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("userType", userType);
         params.put("content", content);
         params.put("email", email);
         params.put("tel", tel);
-        params.put("type", "BUG");
+        params.put("type", type);
 
         try {
             Response response = HttpClient.getInstance().post(Config.BASE_URL+"User_feedback", params);
@@ -386,6 +387,31 @@ public class DaoUser {
         }
 
         return nbMessages == null ? null : nbMessages.getResult();
+    }
+
+    public boolean checkNewMessage(long date) {
+        NbCheckMsg checkMsg = null;
+
+        try {
+            Response response = HttpClient.getInstance().get(Config.BASE_URL + "User_checkNewMsg?date=" + date);
+
+            if (response.code() == 200) {
+                String json = response.body().string();
+                checkMsg = new Gson().fromJson(json, NbCheckMsg.class);
+                if (checkMsg.isSuc()) {
+                    return checkMsg.isResult();
+                } else {
+                    EventBus.getDefault().post(new ErrorEventMainPage("msg:" + checkMsg.getMsg()));
+                }
+            } else {
+                EventBus.getDefault().post(new ErrorEventMainPage("http code:" + response.code()));
+            }
+        } catch (Exception e) {
+            EventBus.getDefault().post(new ErrorEventMainPage(e.getMessage()));
+            e.printStackTrace();
+        }
+
+        return checkMsg == null ? false : checkMsg.isResult();
     }
 
     public Boolean deleteAnswer(int aid, String userType) {

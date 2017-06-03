@@ -1,29 +1,23 @@
 package com.tao.answersys.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.adapter.AdapterAnswers;
 import com.tao.answersys.adapter.ImgsRecyclerViewAdapter;
-import com.tao.answersys.adapter.MediaRecyclerViewAdapter;
 import com.tao.answersys.bean.AnswerItem;
 import com.tao.answersys.bean.ImgViewItem;
 import com.tao.answersys.bean.Question;
 import com.tao.answersys.bean.Student;
 import com.tao.answersys.bean.Teacher;
-import com.tao.answersys.biz.BizQuestion;
 import com.tao.answersys.event.ErrorEventQuestionDetailPage;
 import com.tao.answersys.event.EventUserReqDeleteAnswer;
 import com.tao.answersys.event.EventUserReqUpdateAnswer;
@@ -67,23 +61,23 @@ public class ActivityQuestionDetail extends ActivityBase {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INTENT_REQ_ANSWER) {
             if (resultCode == INTENT_RESULT_SUC) {
-                showToastMessage("发布成功");
+                showPromptMessage("发布成功");
                 if(CustApplication.getUserType().equals(Config.USER_TYPE_STU)) {
                     new AsyncTaskStuAnswer().execute(mQuestionId);
                 } else {
                     new AsyncTaskTeacherAnswer().execute(mQuestionId);
                 }
             } else if (resultCode == INTENT_RESULT_CANCEL || resultCode == RESULT_CANCELED) {
-                showToastMessage("取消发布");
+                showPromptMessage("取消发布");
             }
         } else if(requestCode == INTENT_REQ_UPDATE) {
             if(resultCode == INTENT_RESULT_SUC) {
-                showToastMessage("保存成功");
+                showPromptMessage("保存成功");
                 new AsyncTaskQuestion().execute(mQuestionId);
             }
         } else if(requestCode == INTENT_REQ_UPDATE_ANSER) {
             if(resultCode == INTENT_RESULT_SUC) {
-                showToastMessage("修改成功");
+                showPromptMessage("修改成功");
                 if(CustApplication.getCurrUser() instanceof Student) {
                     new AsyncTaskStuAnswer().execute(mQuestionId);
                 } else if(CustApplication.getCurrUser() instanceof Teacher) {
@@ -270,7 +264,7 @@ public class ActivityQuestionDetail extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventQuestionDetailPage error) {
-        showToastMessage(error.getMsg());
+        showPromptMessage(error.getMsg());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -308,7 +302,7 @@ public class ActivityQuestionDetail extends ActivityBase {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result == true) {
-                showToastMessage("删除成功");
+                showPromptMessage("删除成功");
 
                 if(CustApplication.getCurrUser() instanceof Student) {
                     new AsyncTaskStuAnswer().execute(mQuestionId);
@@ -316,9 +310,9 @@ public class ActivityQuestionDetail extends ActivityBase {
                     new AsyncTaskTeacherAnswer().execute(mQuestionId);
                 }
             } else if(codeError == true){
-                showToastMessage("程序员开小差了");
+                showPromptMessage("程序员开小差了");
             } else {
-                //showToastMessage("收藏失败");
+                //showPromptMessage("收藏失败");
             }
         }
     }
@@ -339,13 +333,13 @@ public class ActivityQuestionDetail extends ActivityBase {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if(result == true) {
-                showToastMessage("收藏成功");
+                showPromptMessage("收藏成功");
                 switchCollectStatus(true);
                 isCollect = true;
             } else if(codeError == true){
-                showToastMessage("程序员开小差了");
+                showPromptMessage("程序员开小差了");
             } else {
-                //showToastMessage("收藏失败");
+                //showPromptMessage("收藏失败");
             }
         }
     }
@@ -367,7 +361,7 @@ public class ActivityQuestionDetail extends ActivityBase {
                 mAdapterStuAnswer.setdata(answerItems);
                 mAdapterStuAnswer.notifyDataSetChanged();
             } else {
-                showToastMessage("没有任何数据");
+                showPromptMessage("没有任何数据");
             }
         }
     }
@@ -389,7 +383,7 @@ public class ActivityQuestionDetail extends ActivityBase {
                 mAdapterTeacherAnswer.setdata(answerItems);
                 mAdapterTeacherAnswer.notifyDataSetChanged();
             } else {
-                showToastMessage("没有任何数据");
+                showPromptMessage("没有任何数据");
             }
         }
     }
@@ -433,7 +427,7 @@ public class ActivityQuestionDetail extends ActivityBase {
                 if(result) {
                     switchCollectStatus(false);
                     isCollect = false;
-                    showToastMessage("取消收藏");
+                    showPromptMessage("取消收藏");
                 } else {
 
                 }

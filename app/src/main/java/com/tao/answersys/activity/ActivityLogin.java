@@ -1,6 +1,5 @@
 package com.tao.answersys.activity;
 
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,9 +16,7 @@ import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.bean.Student;
 import com.tao.answersys.bean.Teacher;
-import com.tao.answersys.biz.BizUser;
 import com.tao.answersys.event.ErrorEventLoginPage;
-import com.tao.answersys.event.ErrorEventMainPage;
 import com.tao.answersys.global.CustApplication;
 
 import net.qiujuer.genius.blur.StackBlur;
@@ -103,7 +99,7 @@ public class ActivityLogin extends ActivityBase{
                 if(account == null || account.equals("") || pwd == null || pwd.equals("")) {
             //        AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
                //     asyncTaskLogin.execute("201307040313", "admin");
-                    showToastMessage("输入项不能为空！");
+                    showPromptMessage("输入项不能为空！");
                 } else {
                     AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
 
@@ -115,7 +111,7 @@ public class ActivityLogin extends ActivityBase{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginError(ErrorEventLoginPage errorEvent) {
-        showToastMessage(errorEvent.getMsg());
+        showPromptMessage(errorEvent.getMsg());
     }
 
     private class AsyncTaskLogin extends AsyncTask<String, Void, Object> {
@@ -156,7 +152,7 @@ public class ActivityLogin extends ActivityBase{
                 finish();
             } else {
                 if(codeError) {
-                    showToastMessage("程序员开小差了！！");
+                    showPromptMessage("程序员开小差了！！");
                 }
             }
         }

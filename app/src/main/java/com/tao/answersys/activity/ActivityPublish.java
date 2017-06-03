@@ -11,7 +11,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
@@ -123,7 +122,7 @@ public class ActivityPublish extends ActivityBase {
                         title.equals("") ||
                         content == null ||
                         content.equals("")) {
-                    showToastMessage("所有输入项不能为空！！");
+                    showPromptMessage("所有输入项不能为空！！");
                 } else {
                     new AsyncTaskPublish().execute(title, content);
                 }
@@ -258,7 +257,7 @@ public class ActivityPublish extends ActivityBase {
         @Override
         protected void onPostExecute(Boolean result) {
             if(codeError) {
-                showToastMessage("程序员开小差了！！");
+                showPromptMessage("程序员开小差了！！");
             } else {
                 if(result) {
                     final MessageDialog dialog =  new MessageDialog(ActivityPublish.this).setTitle("提示").setMessage("你的问题成功发布");
@@ -283,7 +282,7 @@ public class ActivityPublish extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPublishError(ErrorEventPublishPage event) {
-        showToastMessage(event.getMsg());
+        showPromptMessage(event.getMsg());
         dismissProgressDialog();
     }
 

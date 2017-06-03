@@ -2,11 +2,9 @@ package com.tao.answersys.activity;
 
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
@@ -145,12 +143,12 @@ public class ActivityPersonData extends ActivityBase {
                 mEdittextNewPwd.setText("");
                 mEdittextOldPwd.setText("");
                 if(oldPwd == null || oldPwd.trim().equals("") || newPwd == null || newPwd.trim().equals("")) {
-                    showToastMessage("输入项不能为空");
+                    showPromptMessage("输入项不能为空");
                 } else {
                     if(newPwd.equals(confirmPwd)) {
                         new AsyncTaskChgnePwd().execute(oldPwd, newPwd);
                     } else {
-                        showToastMessage("两次密码不一致");
+                        showPromptMessage("两次密码不一致");
                     }
                 }
             }
@@ -159,7 +157,7 @@ public class ActivityPersonData extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventPersonDataPage error) {
-        showToastMessage(error.getMsg());
+        showPromptMessage(error.getMsg());
     }
 
     private class AsyncTaskChgnePwd extends AsyncTask<String, Void, Boolean> {
@@ -178,10 +176,10 @@ public class ActivityPersonData extends ActivityBase {
         @Override
         protected void onPostExecute(Boolean o) {
             if(o != null && o) {
-                showToastMessage("修改成功");
+                showPromptMessage("修改成功");
             } else {
                 if(codeError) {
-                    showToastMessage("程序员开小差了！！");
+                    showPromptMessage("程序员开小差了！！");
                 }
             }
         }

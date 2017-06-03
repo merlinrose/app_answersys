@@ -32,7 +32,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/setting_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_width="@dimen/me_setting_list_icon_size"
             android:layout_height="@dimen/me_setting_list_icon_size"
             android:src="@drawable/ic_more"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/setting_setting"

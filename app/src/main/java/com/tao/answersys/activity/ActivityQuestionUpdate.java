@@ -1,6 +1,5 @@
 package com.tao.answersys.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,9 +8,7 @@ import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.bean.QuestionUpdate;
 import com.tao.answersys.bean.Question;
-import com.tao.answersys.event.ErrorEventPublishPage;
 import com.tao.answersys.event.ErrorEventQuestionUpdatePage;
-import com.tao.answersys.view.MessageDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,7 +54,7 @@ public class ActivityQuestionUpdate extends ActivityBase {
                         title.equals("") ||
                         content == null ||
                         content.equals("")) {
-                    showToastMessage("所有输入项不能为空！！");
+                    showPromptMessage("所有输入项不能为空！！");
                 } else {
                     new AsyncTaskUpdate().execute(title, content);
                 }
@@ -104,7 +101,7 @@ public class ActivityQuestionUpdate extends ActivityBase {
         @Override
         protected void onPostExecute(Boolean result) {
             if(codeError) {
-                showToastMessage("程序员开小差了！！");
+                showPromptMessage("程序员开小差了！！");
             } else {
                 if(result) {
                     setResult(INTENT_RESULT_SUC);
@@ -116,6 +113,6 @@ public class ActivityQuestionUpdate extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPublishError(ErrorEventQuestionUpdatePage event) {
-        showToastMessage(event.getMsg());
+        showPromptMessage(event.getMsg());
     }
 }

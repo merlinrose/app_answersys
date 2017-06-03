@@ -1,11 +1,8 @@
 package com.tao.answersys.activity;
 
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
@@ -17,7 +14,6 @@ import com.tao.answersys.view.RecyclerviewDivider;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -78,7 +74,7 @@ public class ActivityMessage extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventMessagePage event) {
-        showToastMessage(event.getMsg());
+        showPromptMessage(event.getMsg());
     }
 
     public class AsyncTaskMessage extends AsyncTask<Void, String, List<Message>> {

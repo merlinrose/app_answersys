@@ -17,15 +17,27 @@
                 android:text="动态"
                 android:textSize="@dimen/text_size_2"
                 android:textColor="@color/textColorPrimary"/>
-            <ImageView
-                android:id="@+id/toolbar_msg"
-                android:layout_width="@dimen/action_icon_size"
-                android:layout_height="@dimen/action_icon_size"
-                android:src="@drawable/ic_action_msg"
-                android:layout_marginRight="15dp"
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:clickable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_gravity="right"/>
+                android:layout_marginRight="15dp"
+                android:layout_gravity="right"
+                android:background="?android:attr/selectableItemBackground">
+                <ImageView
+                    android:id="@+id/toolbar_msg"
+                    android:layout_width="@dimen/action_icon_size"
+                    android:layout_height="@dimen/action_icon_size"
+                    android:src="@drawable/ic_action_msg"/>
+                <ImageView
+                    android:id="@+id/toolbar_msg_new"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/ic_red_point"
+                    android:scaleType="fitXY"/>
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/toolbar_search"
                 android:layout_width="@dimen/action_icon_size"

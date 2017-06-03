@@ -1,6 +1,7 @@
 package com.tao.answersys.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -23,6 +24,8 @@ public class ActivityMain extends ActivityBase {
     private ViewPager mViewPager;
     private FragmentManager mFragmentManager;
 
+    private View mViewNewMsg;
+
     private TextView mTextviewTitle;
 
     protected void init() {
@@ -32,6 +35,8 @@ public class ActivityMain extends ActivityBase {
         initViewPager();
         //initNavigation();
         initButton();
+
+        new AsyncTaskCheckMsg().execute();
     }
 
     @Override
@@ -78,10 +83,12 @@ public class ActivityMain extends ActivityBase {
             }
         });
 
+        mViewNewMsg = findViewById(R.id.toolbar_msg_new);
         findViewById(R.id.toolbar_msg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gotoActivity(ActivityMain.this, ActivityMessage.class);
+                mViewNewMsg.setVisibility(View.GONE);
             }
         });
 
@@ -107,7 +114,6 @@ public class ActivityMain extends ActivityBase {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -152,9 +158,10 @@ public class ActivityMain extends ActivityBase {
         });
     }
  */
+
    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventMainPage errorEvent) {
-        showToastMessage("遇到错误：" + errorEvent.getMsg());
+        showPromptMessage("遇到错误：" + errorEvent.getMsg());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -162,5 +169,21 @@ public class ActivityMain extends ActivityBase {
         Intent intent = new Intent(ActivityMain.this, ActivityQuestionDetail.class);
         intent.putExtra("questionId", event.getQuestionId());
         startActivity(intent);
+    }
+
+    private class AsyncTaskCheckMsg extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return mBizUser.checkMsg();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result != null && result) {
+                mViewNewMsg.setVisibility(View.VISIBLE);
+            } else {
+                mViewNewMsg.setVisibility(View.GONE);
+            }
+        }
     }
 }

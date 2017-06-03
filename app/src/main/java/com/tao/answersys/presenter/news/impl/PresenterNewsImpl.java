@@ -45,8 +45,14 @@ public class PresenterNewsImpl implements PresenterNews {
     public void loadMoreData() {
         if(!isLoading && hasMore) {
             page++;
+
             loadData(page);
         }
+    }
+
+    @Override
+    public boolean hasMore() {
+        return hasMore;
     }
 
     public class AsyncTaskNews extends AsyncTask<Integer, String, List<Question>>{

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.tao.answersys.R;
@@ -12,7 +11,6 @@ import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.adapter.AdapterLessons;
 import com.tao.answersys.bean.Lesson;
 import com.tao.answersys.event.ErrorEventLessonPage;
-import com.tao.answersys.event.ErrorEventMainPage;
 import com.tao.answersys.event.EventLessonItemClick;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +77,7 @@ public class ActivityLessonSelect extends ActivityBase{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventLessonPage errorEvent) {
-        showToastMessage("遇到错误：" + errorEvent.getMsg());
+        showPromptMessage("遇到错误：" + errorEvent.getMsg());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

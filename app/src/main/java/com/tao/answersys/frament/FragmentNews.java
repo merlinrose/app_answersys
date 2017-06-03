@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.tao.answersys.R;
@@ -86,8 +87,12 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener() {
             @Override
             public void onLoadMoreData() {
-                loadView.setVisibility(View.VISIBLE);
-                mPresenterNews.loadMoreData();
+                if(mPresenterNews.hasMore()) {
+                    loadView.setVisibility(View.VISIBLE);
+                    mPresenterNews.loadMoreData();
+                } else {
+                    //没有更多数据了
+                }
             }
         });
     }
@@ -117,13 +122,12 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
         if(mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
             mRefreshLayout.setRefreshing(false);
             mNewAdapter.notifyItemRangeChanged(0, data == null ? 0 : data.size());
-            loadView.setVisibility(View.GONE);
         } else {
             int count = mNewAdapter.getItemCount();
             mNewAdapter.addData(data);
             mNewAdapter.notifyItemRangeInserted(count, data == null ? 0 : data.size());
-            loadView.setVisibility(View.GONE);
         }
+        loadView.setVisibility(View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

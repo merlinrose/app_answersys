@@ -74,7 +74,7 @@ public class ActivityAnswer extends ActivityBase{
                     }
 
                 } else {
-                    showToastMessage("回答内容不能为空");
+                    showPromptMessage("回答内容不能为空");
                 }
             }
 
@@ -120,7 +120,7 @@ public class ActivityAnswer extends ActivityBase{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginError(ErrorEventAnswerPage errorEvent) {
-        showToastMessage(errorEvent.getMsg());
+        showPromptMessage(errorEvent.getMsg());
     }
 
     private class AsyncUpdateAnswer extends AsyncTask<Integer, Void, Boolean>{
@@ -146,7 +146,7 @@ public class ActivityAnswer extends ActivityBase{
             super.onPostExecute(result);
 
             if(codeError == true) {
-                showToastMessage("程序员开小差了！！");
+                showPromptMessage("程序员开小差了！！");
                 return;
             }
 
@@ -154,7 +154,7 @@ public class ActivityAnswer extends ActivityBase{
                 setResult(INTENT_RESULT_SUC);
                 finish();
             } else {
-                // showToastMessage("发表失败，点击重试");
+                // showPromptMessage("发表失败，点击重试");
             }
         }
     }
@@ -182,7 +182,7 @@ public class ActivityAnswer extends ActivityBase{
             super.onPostExecute(result);
 
             if(codeError == true) {
-                showToastMessage("程序员开小差了！！");
+                showPromptMessage("程序员开小差了！！");
                 return;
             }
 
@@ -190,7 +190,7 @@ public class ActivityAnswer extends ActivityBase{
                 setResult(INTENT_RESULT_SUC);
                 finish();
             } else {
-               // showToastMessage("发表失败，点击重试");
+               // showPromptMessage("发表失败，点击重试");
             }
         }
     }

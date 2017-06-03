@@ -8,4 +8,6 @@ public interface PresenterNews {
     public void loadData(int page);
 
     public void loadMoreData();
+
+    public boolean hasMore();
 }

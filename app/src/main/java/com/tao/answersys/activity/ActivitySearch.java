@@ -13,7 +13,6 @@ import com.tao.answersys.activity.base.ActivityBase;
 import com.tao.answersys.adapter.AdapterQuestions;
 import com.tao.answersys.bean.Question;
 import com.tao.answersys.event.ErrorEventSearchPage;
-import com.tao.answersys.event.EventUserCollectItemClick;
 import com.tao.answersys.event.EventUserSearchResultItemClick;
 import com.tao.answersys.view.RecyclerviewDivider;
 
@@ -112,7 +111,7 @@ public class ActivitySearch extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventSearchPage error) {
-        showToastMessage(error.getMsg());
+        showPromptMessage(error.getMsg());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

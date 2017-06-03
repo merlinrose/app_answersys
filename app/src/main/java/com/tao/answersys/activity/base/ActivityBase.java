@@ -94,7 +94,7 @@ public abstract class ActivityBase extends AppCompatActivity{
         startActivity(intent);
     }
 
-    protected void showToastMessage(String message){
+    protected void showPromptMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 

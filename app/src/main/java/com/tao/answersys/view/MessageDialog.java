@@ -49,6 +49,8 @@ public class MessageDialog {
             public void onClick(View v) {
                 if(mButtonListener != null) {
                     mButtonListener.onOkButtonClick();
+                } else {
+                    dismiss();
                 }
             }
         });
@@ -58,6 +60,8 @@ public class MessageDialog {
             public void onClick(View v) {
                 if(mButtonListener != null) {
                     mButtonListener.onCancelButtonClick();
+                } else {
+                    dismiss();
                 }
             }
         });

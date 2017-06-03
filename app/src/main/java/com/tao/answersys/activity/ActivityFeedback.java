@@ -1,8 +1,8 @@
 package com.tao.answersys.activity;
 
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.tao.answersys.R;
 import com.tao.answersys.activity.base.ActivityBase;
@@ -24,6 +24,7 @@ public class ActivityFeedback extends ActivityBase {
     private EditText eidttextEmail = null;
     private EditText edittextTel = null;
     private EditText edittextContent = null;
+    private RadioGroup radioGroupType = null;
 
     @Override
     protected void onDestroy() {
@@ -52,14 +53,29 @@ public class ActivityFeedback extends ActivityBase {
                 edittextContent = (EditText) findViewById(R.id.feedback_textview_content);
                 edittextTel = (EditText) findViewById(R.id.feedback_textview_tel);
                 eidttextEmail = (EditText) findViewById(R.id.feedback_textview_email);
+                radioGroupType = (RadioGroup) findViewById(R.id.feedback_radio_type);
 
                 if(edittextContent.getText().toString().trim().equals("")) {
-                    showToastMessage("反馈内容不能为空");
+                    showPromptMessage("反馈内容不能为空");
                 }
 
+                String fbType = "";
+                int checkId = radioGroupType.getCheckedRadioButtonId();
+                if(checkId == -1) {
+                    showPromptMessage("请选择反馈类型");
+                } else {
+                    if(checkId == 1) {
+                        fbType = "赞赏";
+                    } else if(checkId == 2) {
+                        fbType = "建议";
+                    } else if(checkId == 3) {
+                        fbType = "BUG";
+                    }
+                }
                 new AsyncTaskFeedBack().execute(edittextContent.getText().toString(),
                         eidttextEmail.getText().toString(),
-                        edittextTel.getText().toString());
+                        edittextTel.getText().toString(),
+                        fbType);
             }
 
             @Override
@@ -79,16 +95,16 @@ public class ActivityFeedback extends ActivityBase {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEventFeedbackPage error) {
-        showToastMessage(error.getMsg());
+        showPromptMessage(error.getMsg());
     }
 
     private class AsyncTaskFeedBack extends AsyncTask<String, Void, Boolean> {
         private boolean codeError = false;
         @Override
         protected Boolean doInBackground(String... params) {
-            if(params.length == 3) {
-                return mBizUser.feedback(params[0], params[1], params[2]);
-            }else {
+            if(params.length == 4) {
+                return mBizUser.feedback(params[0], params[1], params[2], params[3]);
+            } else {
                 codeError = true;
             }
             return false;
@@ -97,7 +113,7 @@ public class ActivityFeedback extends ActivityBase {
         @Override
         protected void onPostExecute(Boolean result) {
             if(codeError) {
-                showToastMessage("程序员开小差了！！");
+                showPromptMessage("程序员开小差了！！");
             } else {
                 if(result) {
                     final MessageDialog dialog =  new MessageDialog(ActivityFeedback.this).setTitle("提示").setMessage("你的反馈已经提交，我们会做的更好");

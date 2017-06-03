@@ -64,7 +64,6 @@ public class FragmentMe extends FragmentBase{
         findViewById(R.id.frag_me_btn_collect).setOnClickListener(listener);
 
         findViewById(R.id.setting_person_data).setOnClickListener(listener);
-        findViewById(R.id.setting_theme).setOnClickListener(listener);
         findViewById(R.id.setting_setting).setOnClickListener(listener);
 
         //注销按钮
@@ -92,8 +91,6 @@ public class FragmentMe extends FragmentBase{
                     break;
                 case R.id.setting_person_data:
                     gotoActivity(getActivity(), ActivityPersonData.class);
-                    break;
-                case R.id.setting_theme:
                     break;
                 case R.id.setting_setting:
                     gotoActivity(getActivity(), ActivitySetting.class);
