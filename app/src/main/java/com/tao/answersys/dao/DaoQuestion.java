@@ -32,9 +32,17 @@ import okhttp3.Response;
 
 /**
  * Created by LiangTao on 2017/4/24.
+ * 问题Dao类
+ * <br>主要完成问题相关的数据访问
  */
-
 public class DaoQuestion {
+    /**
+     * 分页获取最新问题动态
+     * @param page  页号
+     * @param uid   用户编号
+     * @param userType 用户类型
+     * @return
+     */
     public List<Question> getLatest(int page, int uid, String userType) {
         Questions questions = null;
         NbQuestions nBquestions = null;
@@ -60,6 +68,13 @@ public class DaoQuestion {
         return questions == null ? null : questions.getQuestionList();
     }
 
+    /**
+     * 获取问题详情
+     * @param questionId
+     * @param uid
+     * @param userType
+     * @return
+     */
     public Question getQuestion(int questionId, int uid, String userType) {
         Question question = null;
         NbQuestion nbQuestion = null;
@@ -85,6 +100,11 @@ public class DaoQuestion {
         return nbQuestion == null ? null : nbQuestion.getResult();
     }
 
+    /**
+     * 获取问题的学生回答
+     * @param qid
+     * @return
+     */
     public List<AnswerItem> getStuAnswer(int qid) {
            List<AnswerItem> datas = null;
             NbAnswerItems nbAnswerItems = null;
@@ -110,6 +130,11 @@ public class DaoQuestion {
             return nbAnswerItems == null ? null : nbAnswerItems.getResult();
     }
 
+    /**
+     * 获取问题的老师回答
+     * @param qid
+     * @return
+     */
     public List<AnswerItem> getTeacherAnswer(int qid) {
         List<AnswerItem> datas = null;
         NbAnswerItems nbAnswerItems = null;
@@ -135,6 +160,12 @@ public class DaoQuestion {
         return nbAnswerItems == null ? null : nbAnswerItems.getResult();
     }
 
+    /**
+     * 获取用户的历史提问
+     * @param page
+     * @param userId
+     * @return
+     */
     public List<Question> getUserQuestion(int page, int userId) {
         Questions questions = null;
         NbQuestions nBquestions = null;
@@ -160,6 +191,13 @@ public class DaoQuestion {
         return questions == null ? null : questions.getQuestionList();
     }
 
+    /**
+     * 获取用户的历史回答
+     * @param page
+     * @param userId
+     * @param userType
+     * @return
+     */
     public List<Question> getUserAnswer(int page, int userId, String userType) {
         Questions questions = null;
         NbQuestions nBquestions = null;
@@ -185,6 +223,13 @@ public class DaoQuestion {
         return questions == null ? null : questions.getQuestionList();
     }
 
+    /**
+     * 获取用户的历史收藏
+     * @param page
+     * @param userId
+     * @param userType
+     * @return
+     */
     public List<Question> getUserCollect(int page, int userId, String userType) {
         Questions questions = null;
         NbQuestions nBquestions = null;
@@ -210,6 +255,12 @@ public class DaoQuestion {
         return questions == null ? null : questions.getQuestionList();
     }
 
+    /**
+     * 搜索问题
+     * @param page 页号
+     * @param keyWord 关键词
+     * @return
+     */
     public List<Question> searchQuestion(int page, String keyWord) {
         Questions questions = null;
         NbQuestions nBquestions = null;

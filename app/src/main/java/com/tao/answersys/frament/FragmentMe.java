@@ -20,16 +20,22 @@ import com.tao.answersys.global.CustApplication;
 
 /**
  * Created by LiangTao on 2017/4/12.
+ * 《我的》页面Fragment
  */
-
 public class FragmentMe extends FragmentBase{
 
+    /**
+     * 初始化
+     */
     @Override
     public void init() {
         initUserData();
         initButton();
     }
 
+    /**
+     * 初始化用户数据
+     */
     private void initUserData() {
         Object currUser = CustApplication.getCurrUser();
         TextView userName = (TextView)findViewById(R.id.frag_me_user_name);
@@ -49,6 +55,9 @@ public class FragmentMe extends FragmentBase{
         }
     }
 
+    /**
+     * 初始化按钮
+     */
     private void initButton() {
         FragMeBtnClickListener listener = new FragMeBtnClickListener();
 
@@ -70,6 +79,9 @@ public class FragmentMe extends FragmentBase{
         findViewById(R.id.frag_me_logout).setOnClickListener(listener);
     }
 
+    /**
+     * 我的页面按捺U点击事件接口类
+     */
     private class FragMeBtnClickListener implements View.OnClickListener {
 
         @Override

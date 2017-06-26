@@ -240,7 +240,13 @@ public class ActivityPublish extends ActivityBase {
                 question.setLessonId(mSelectLesson.getId());
                 question.setContent(params[1]);
                 question.setStuId(CustApplication.getCurrUserId());
-                question.setAttchList(filesHasCreate);
+
+                List<MediaViewBean> beanList = adapter.getData();
+                List<String> paths = new ArrayList<String>(beanList.size());
+                for(int i = 0; i < beanList.size(); i++) {
+                    paths.add(beanList.get(i).getPath());
+                }
+                question.setAttchList(paths);
                 return mBizUser.publishQuestion(question);
             }else {
                 codeError = true;

@@ -32,9 +32,12 @@ import static android.view.WindowManager.*;
 
 /**
  * Created by LiangTao on 2017/4/25.
+ * 登录Activity
  */
-
 public class ActivityLogin extends ActivityBase{
+    /**
+     * 初始化
+     */
     @Override
     protected void init() {
         //设置状态栏透明
@@ -58,6 +61,9 @@ public class ActivityLogin extends ActivityBase{
         initView();
     }
 
+    /**
+     * 初始化页面背景
+     */
     private void initBackground() {
         AssetManager assetManager = getResources().getAssets();
         InputStream is = null;
@@ -85,6 +91,9 @@ public class ActivityLogin extends ActivityBase{
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 初始化View
+     */
     private void initView() {
         final EditText edittextPwd = (EditText) findViewById(R.id.login_edittext_pwd);
         final EditText edittextAccount = (EditText) findViewById(R.id.login_edittext_account);
@@ -97,23 +106,29 @@ public class ActivityLogin extends ActivityBase{
                 String pwd = edittextPwd.getText().toString();
 
                 if(account == null || account.equals("") || pwd == null || pwd.equals("")) {
-            //        AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
-               //     asyncTaskLogin.execute("201307040313", "admin");
+                //    AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
+                //    asyncTaskLogin.execute("201307040313", "admin");
                     showPromptMessage("输入项不能为空！");
                 } else {
                     AsyncTaskLogin asyncTaskLogin = new AsyncTaskLogin();
-
                     asyncTaskLogin.execute(account, pwd);
                 }
             }
         });
     }
 
+    /**
+     * 错误信息事件接收者
+     * @param errorEvent
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginError(ErrorEventLoginPage errorEvent) {
         showPromptMessage(errorEvent.getMsg());
     }
 
+    /**
+     * 登录异步任务类
+     */
     private class AsyncTaskLogin extends AsyncTask<String, Void, Object> {
         private boolean codeError = false;
 

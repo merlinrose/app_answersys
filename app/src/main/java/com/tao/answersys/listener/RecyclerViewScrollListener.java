@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.StaggeredGridLayoutManager;;
 
 /**
- * 
+ * RecyclerView滚动事件监听器
  * @author LiangTao
  *
  */
@@ -21,6 +21,7 @@ public abstract class RecyclerViewScrollListener extends OnScrollListener {
 	public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
 	}
+
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -73,5 +74,8 @@ public abstract class RecyclerViewScrollListener extends OnScrollListener {
 		}
 	}
 
+	/**
+	 * 加载更多数据
+	 */
 	public abstract void onLoadMoreData();
 }

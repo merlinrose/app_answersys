@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Created by LiangTao on 2017/4/25.
  */
-
 public class BizUser {
     public final static int LOGIN_SUC = 1;
     private DaoUser mDaoUser;

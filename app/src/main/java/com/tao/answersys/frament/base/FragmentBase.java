@@ -15,8 +15,8 @@ import com.tao.answersys.activity.base.ActivityBase;
 
 /**
  * Created by LiangTao on 2017/4/12.
+ * Fragment基类
  */
-
 public abstract class FragmentBase extends Fragment{
     private String mFragmentTitle = null;
     private int mLayoutId = -1;
@@ -26,18 +26,33 @@ public abstract class FragmentBase extends Fragment{
         super();
     }
 
+    /**
+     * 设置Fragment的Layout的id
+     * @param layoutId
+     */
     public void setFragmentLayout(int layoutId) {
         this.mLayoutId = layoutId;
     }
 
+    /**
+     * 设置Fragment的Title
+     * @param title
+     */
     public void setFragmentTitle(String title) {
         mFragmentTitle = title;
     }
 
+    /**
+     * 获取Fragment的Title
+     * @return
+     */
     public String getFragmentTitle() {
         return mFragmentTitle;
     }
 
+    /**
+     * 初始化
+     */
     public abstract void init();
 
     @Nullable
@@ -51,6 +66,11 @@ public abstract class FragmentBase extends Fragment{
         return mFrgmentView;
     }
 
+    /**
+     * 通过ID获取View
+     * @param viewId
+     * @return
+     */
     public View findViewById(int viewId) {
         if(null != mFrgmentView) {
             return mFrgmentView.findViewById(viewId);
@@ -59,6 +79,11 @@ public abstract class FragmentBase extends Fragment{
         }
     }
 
+    /**
+     * 跳转Activity
+     * @param context
+     * @param clazz
+     */
     public void gotoActivity(Context context, Class clazz) {
         Intent intent = new Intent(context, clazz);
         startActivity(intent);

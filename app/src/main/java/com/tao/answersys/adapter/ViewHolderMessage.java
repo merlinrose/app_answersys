@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.tao.answersys.R;
 import com.tao.answersys.bean.Message;
 
-class ViewHolderMessage extends RecyclerView.ViewHolder{
+public class ViewHolderMessage extends RecyclerView.ViewHolder{
     private TextView mTextviewTitle;
     private TextView mTextviewContent;
     private TextView mTextviewTime;

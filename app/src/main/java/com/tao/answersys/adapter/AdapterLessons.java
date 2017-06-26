@@ -18,8 +18,8 @@ import java.util.List;
 
 /**
  * Created by LiangTao on 2017/4/29.
+ * 课程Adapter
  */
-
 public class AdapterLessons extends RecyclerView.Adapter<ViewHolderLessons>{
     private List<Lesson> mDatas;
     private LayoutInflater mLayoutInflater;
@@ -28,9 +28,14 @@ public class AdapterLessons extends RecyclerView.Adapter<ViewHolderLessons>{
         mLayoutInflater = LayoutInflater.from(context);
     }
 
+    /**
+     * 设置显示数据
+     * @param data
+     */
     public void setdata(List<Lesson> data) {
         this.mDatas = data;
     }
+
     @Override
     public ViewHolderLessons onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.layout_lesson_item, null);
@@ -58,6 +63,10 @@ class ViewHolderLessons extends RecyclerView.ViewHolder{
         textViewLesson = (TextView) itemView.findViewById(R.id.lessons_item_name);
     }
 
+    /**
+     * 绑定数据
+     * @param data
+     */
     public void bindData(final Lesson data) {
         textViewLesson.setText(data.getName());
         mRootView.setOnClickListener(new View.OnClickListener() {

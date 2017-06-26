@@ -23,6 +23,8 @@ import okio.Source;
 
 /**
  * Created by LiangTao on 2017/4/15.
+ * OkHttp的二次封装
+ * <br>此类为单例类
  */
 public class HttpClient {
     private static HttpClient instance = null;
@@ -31,6 +33,10 @@ public class HttpClient {
     private float allSize = 0f;
     private float hasFinishedSize = 0f;
 
+    /**
+     * 获取单例对象
+     * @return
+     */
     public static HttpClient getInstance() {
         if (instance == null) {
             instance = new HttpClient();
@@ -40,10 +46,20 @@ public class HttpClient {
         return instance;
     }
 
+    /**
+     * 设置进度监听器
+     * @param callBack
+     */
     public void setProgressCallBack(IProgressCallBack callBack) {
         this.progressCallBack = callBack;
     }
 
+    /**
+     * Get请求
+     * @param url 请求URL
+     * @return
+     * @throws IOException
+     */
     public Response get(String url) throws IOException {
         Log.e("get req", url);
 
@@ -54,6 +70,13 @@ public class HttpClient {
         return response;
     }
 
+    /**
+     * Post请求
+     * @param url 路径
+     * @param paramsMap 参数
+     * @return
+     * @throws IOException
+     */
     public Response post(String url, HashMap<String, String> paramsMap) throws IOException {
         Log.e("post req", url);
         Log.e("post req params", paramsMap.toString());
@@ -63,9 +86,8 @@ public class HttpClient {
             formBuilder.add(params.getKey(), params.getValue());
         }
 
-        RequestBody requestBody = formBuilder.build();
-
         //创建一个请求
+        RequestBody requestBody = formBuilder.build();
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
@@ -96,15 +118,10 @@ public class HttpClient {
 
             this.allSize += file.length();
 
-        //    String paramStr = "";
-
             builder.addFormDataPart("attach", new Date().getTime()+"" , fileBody);
         }
 
         if(paramNames != null) {
-            // Map<String, String> map = paramNames.get(i)
-            // paramStr = map.get("id") +""+ map.get("file_type");
-            Log.e("upload",  paramNames.get("id").toString());
             builder.addFormDataPart("stuId", paramNames.get("id").toString());
         }
 
@@ -119,6 +136,12 @@ public class HttpClient {
         return response;
     }
 
+    /**
+     * 创建问题文件上传的Http请求体
+     * @param file
+     * @param type
+     * @return
+     */
     public static RequestBody createFileRequestBody(final File file, final MediaType type) {
         RequestBody reqBody = new RequestBody() {
             @Override
@@ -154,6 +177,9 @@ public class HttpClient {
         return reqBody;
     }
 
+    /**
+     * 文件上传进度监听接口类
+     */
     public interface IProgressCallBack {
         public void onProgressUpdate(float hasFinish, float allSize);
     }

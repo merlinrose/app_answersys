@@ -1,6 +1,7 @@
 package com.tao.answersys.activity;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 

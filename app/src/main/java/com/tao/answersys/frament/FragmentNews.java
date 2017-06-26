@@ -121,7 +121,8 @@ public class FragmentNews extends FragmentBase implements PresenterViewNews {
     public void addData(List<Question> data) {
         if(mRefreshLayout != null && mRefreshLayout.isRefreshing()) {
             mRefreshLayout.setRefreshing(false);
-            mNewAdapter.notifyItemRangeChanged(0, data == null ? 0 : data.size());
+            mNewAdapter.setData(data);
+            mNewAdapter.notifyDataSetChanged();
         } else {
             int count = mNewAdapter.getItemCount();
             mNewAdapter.addData(data);

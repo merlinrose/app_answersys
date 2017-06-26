@@ -23,8 +23,9 @@ import okhttp3.Response;
 
 /**
  * Created by LiangTao on 2017/4/16.
+ * <br>图片加载器
+ * <br>主要是从网络中获取图片，并使用了缓存
  */
-
 public class ImageLoader {
     private int mCasheSize = (int) Runtime.getRuntime().maxMemory() / 8;
     private DiskLruCache mDiskLruCache;
@@ -51,6 +52,11 @@ public class ImageLoader {
         mDiskLruCache = new DiskLruCache();
     }
 
+    /**
+     * 异步获取图片
+     * @param url 请求路径
+     * @param imageView
+     */
     public void loadImageAsync(final String url, final ImageView imageView) {
         if(isGettingImg) {
             queue.add(new ImageLoadTask(url, imageView));
@@ -79,15 +85,19 @@ public class ImageLoader {
         }.execute();
     }
 
+    /**
+     * 获取图片
+     * @param url
+     * @return
+     */
     public Bitmap getImage(String url) {
-        Log.e("getImage form mLruCache", url);
+        //从内存中获取图片
         Bitmap bitmap = mLruCache.get(url);
 
         if (bitmap == null) {
-            Log.e("getImage form mDisk", url);
+            //从缓存中获取图片
             File imgFile = mDiskLruCache.get(url);
             if (imgFile != null) {
-                Log.e("getImage form mDisk suc", url);
                 bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
 
@@ -97,8 +107,9 @@ public class ImageLoader {
                     if (response.code() == 200) {
                         bitmap = BitmapFactory.decodeStream(response.body().byteStream());
                         if (bitmap != null) {
-                            Log.e("put into cache", url);
+                            //放图片到内存
                             mLruCache.put(url, bitmap);
+                            //放图片到缓存
                             mDiskLruCache.putImage(url, bitmap);
                         }
                     } else {
